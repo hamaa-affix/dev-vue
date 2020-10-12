@@ -1,0 +1,14 @@
+version: '3'
+services:
+    vue:
+        build:
+            context: .
+            dockerfile: ./docker/dev/vue/Dockerfile 
+        ports:
+            - 8080:8080
+        privileged: true
+        volumes:
+            - .:/app
+        tty: true
+        working_dir: /app
+        stdin_open: true
