@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" type="text/css" href="app.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <title>Document</title>
+  </style>
+</head>
+<body>
+  <div id="app">
+    <button @click="isShow = !isShow">check img</button>
+    
+    <transition name="fade">
+      <div v-show="isShow">
+        <div class="modal__inner">
+          <div class="modal__close" @click="isShow = !isShow"><i class="fas fa-times"></i></div>
+          <img src="image-001.jpg" alt="">
+        </div>
+
+        <div 
+          class="modal__background"
+          @click="isShow = !isShow"
+        ></div>
+      </div>
+    </transition>
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          isShow: false
+        }
+      },
+
+    });
+  </script>
+</body>
+</html>

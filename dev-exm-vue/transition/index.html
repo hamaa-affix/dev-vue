@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" type="text/css" href="app.css">
+  <title>Document</title>
+
+  <style>
+    .target {
+      transition: opacity 1s;
+    }
+    .tagete.is-hidden {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <button @click="isShow = !isShow">vue表示</button>
+    <!-- transitionタグを用いることで自動定期にopacityが付与される。name属性を付与するとfadeクラスを付与できる。 -->
+    <!-- 自動的にクラスが6つ作成される、詳しくわドキュメント参照 -->
+    <transition name="fade">
+      <div v-show="isShow" name="fade">
+        Vue表示されています
+      </div>
+    </transition>
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          isShow: false
+        }
+      },
+
+    });
+  </script>
+</body>
+</html>
