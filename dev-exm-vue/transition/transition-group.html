@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" type="text/css" href="app.css">
+  <style>
+    .list-item {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .list-enter-active, .list-leave-active {
+      transition: all 1s;
+    }
+    .list-enter, .list-leave-to /* .list-leave-active for below version 2.1.8 */ {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+  </style>
+  <title>Document</title>
+
+  <style>
+    .target {
+      transition: opacity 1s;
+    }
+    .tagete.is-hidden {
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <button v-on:click="add">Add</button>
+    <button v-on:click="remove">Remove</button>
+    <transition-group>
+      <span v-for="item in items" v-bind:key="item" class="list-item">
+        {{ item }}
+      </span>
+    </transition-group>
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+        items: [1,2,3,4,5,6,7,8,9],
+        nextNum: 10
+      },
+      methods: {
+        randomIndex: function () {
+          return Math.floor(Math.random() * this.items.length)
+        },
+        add: function () {
+          //spliceはよく使用する。splice(1配列を変更する開始位置を表すインデックス, 2削除する数, 3追加する数)の引数になっている。
+          this.items.splice(this.randomIndex(), 0, this.nextNum++)
+        },
+        remove: function () {
+          this.items.splice(this.randomIndex(), 1)
+        },
+      }
+    });
+  </script>
+</body>
+</html>
