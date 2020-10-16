@@ -1,11 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar
+    <Header/>
+    <!-- <v-app-bar
       app
       color="primary"
       dark
-    >
-      <div class="d-flex align-center">
+    > -->
+      <!-- <div class="d-flex align-center">
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2"
@@ -35,26 +36,33 @@
         <span class="mr-2">Latest Release</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
-    </v-app-bar>
-
+    </v-app-bar> -->
     <v-main>
       <HelloWorld/>
     </v-main>
+    <Footer/>
   </v-app>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld';
+import Header from "@/layouts/Header.vue";
+import Footer from "@/layouts/Footer.vue";
 
 export default {
   name: 'App',
 
   components: {
     HelloWorld,
+    Header,
+    Footer
   },
 
   data: () => ({
-    //
+        formInput: {
+          name: 'your name',
+          praiceholder: '名前を表示してくだい',
+        }
   }),
 };
 </script>
