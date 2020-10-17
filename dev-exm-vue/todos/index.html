@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <style>
+    ul{
+      list-style: none;
+    }
+    .done{
+      text-decoration: line-through;
+    }
+  </style>
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <input type="texe" v-model="newItem">
+    <button @click.prevent="addTodo">todo追加</button>
+    <input type="text" v-model="query">検索
+    <div v-if="todos.length">
+      <ul>
+        <li v-for="(todo,index) in filterdList"><!--forで回すpropatyはcomputed = todoという変数-->
+          <input type="checkbox" v-model="todo.isDone"><!---checkboxにcheckするとtureになる-->
+          <span :class="{done: todo.isDone}">{{ todo.item }}</span><!--tureに変わったら、クラスが付与される-->
+          <button @click="todoRemove(index)">削除</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          newItem: "",
+          todos:[],
+          query: ""
+        }
+      },
+      methods: {
+        addTodo() {
+          if(!this.newItem) return
+          const todo = {
+            item: this.newItem,
+            isDone: false,
+          }
+            this.todos.push(todo);
+            console.log(this.todos);
+            this.newItem = "";
+        },
+        todoRemove(index) {
+          this.todos.splice(index,1);
+        },
+      },
+      computed: {
+        filterdList() {
+          // 配列にfilterをかけるにはfilter()を使用するがcallbackで書く
+          // 変数でthisを定義する必要がある
+          let that = this;
+          //callbackで定義して引数にtodoとするとtodo一つずつcheckしていく
+          return this.todos.filter( todo => {
+            //文字列の検索,文字列があっていると表示される。
+            return todo.item.indexOf(that.query) !== 1; //indexOfは値が入っていなかったら、-1を返すので、-1でなかったら表示する仕様。
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
