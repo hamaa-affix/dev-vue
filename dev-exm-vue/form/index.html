@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 自作のバリデーションを作ることも可能 -->
+    <!-- errorsの配列の中に1つでも要素があれば発火 -->
+    <p v-if="errors.length">
+      <ul>
+        <li class="error" v-for="error in errors">{{ error }}</li>
+      </ul>
+    </p>
+    <form @submit.prevent="validate">
+      氏名
+      <!-- .trimでスペースをトリムできる -->
+      <input type="text" v-model.trim="yourName"><!--computed(yourName)で監視している値 -->
+      <p :class="{error: hasError.yourName}">{{ contact.yourName.length }} / 20</p> <!--hasError.yourName = trueだとclassが付与される-->>
+      <p v-show="hasError.yourName" class="error">氏名は20文字いないで入力してください</p>
+      <br>
+      電話番号
+    <!-- .numberでint型の型付けができる -->
+      <input type="tel" v-model.number="contact.tel">
+      <br>
+      メールアドレス
+      <!-- .lazy修飾子をつけることでテキストボックスからカーソルが外れた段階でdata bindingされる -->
+      <input type="email" v-model.lazy="contact.email">
+      <br>
+      性別
+      <input type="radio" value="male" v-model="contact.gender">男性
+      <input type="radio" value="female" v-model="contact.gender">女性
+      <input type="radio" value="other" v-model="contact.gender">その他
+      <br>
+      年齢
+      <select name="" id="" v-model="contact.age">
+        <option disabled value="">年齢を選択してください</option>
+        <option>10代</option>
+        <option>20代</option>
+        <option>30代</option>
+        <option>40代</option>
+      </select>
+      <br>
+      メッセージ
+      <textarea name="" id="" cols="30" rows="10" v-model="contact.message"></textarea>
+      <br>
+      このサイトを知った理由
+      <input type="checkbox" value="webサイト" v-model="contact.attracts">webサイト
+      <input type="checkbox" value="チラシ" v-model="contact.attracts">チラシ
+      <input type="checkbox" value="その他" v-model="contact.attracts">その他
+      <br>
+      注意事項に同意する
+      <input type="checkbox" v-model="contact.coution">
+      <br>
+      <input type="submit" value="送信">
+    </form>
+  </div>
+
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          contact: {
+            yourName: "",
+            tel: "",
+            gender: "",
+            age: "",
+            message: "",
+            attracts: [],
+            caution: false
+          },
+          errors: [],
+          hasError: {
+            yourName: false
+          }
+        }
+      },
+      computed: {
+        //原則computedはgetterしかないが、setterも使える。これをすることでリアルタイムで値をセットできる
+        //リアルタイムにデータを算出(getter)　リアルタイムにdataの書き換え(setter)
+        // 監視したいpropaty名: {
+        //   get() {},
+        //   set() {}
+        // }
+        yourName: {
+          get() {
+          return this.contact.yourName;
+          },
+          set(value) {
+            //getterで得た値を(value)のレングスを比較しバリデートする。なので入力formで入力された文字列の長さを監視している。
+            if(value.length <= 20){
+              this.hasError.yourName = false;
+            } else {
+              this.hasError.yourName = true;
+            }
+            return this.contact.yourName = value;
+          }
+        }
+      },
+      methods: {
+        validate() {
+          this.errors = [];
+          if(!this.contact.yourName) {
+            this.errors.push("名前は必須です");
+          } else if (this.contact.yourName.length > 1) {
+            this.errors.push("１文字以上入力してください");
+          }
+          if(!this.contact.caution) {
+            this.errors.push("注意事項にチェックを入れてください")
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
