@@ -63,3 +63,103 @@ const app = new Vue({
 });
 </script>
 ```
+- props
+  - 親のデータを子に渡す
+  - 子conponentに受け取る属性名を指定する。
+  - 親はで登録しているデータをtemplateを渡す。
+  - propsが親とのlinkという考えを持ってやれば良い。props属性を通じて、親のデータをv-bindで渡す。
+```
+
+  <div id="app" class="pearent">
+    <!--props属性にv-bindしデータバインディング-->
+    <my-component :title="titleName" class="child"></my-component>
+    <my-component desabled class="child"></my-component>
+  </div>
+
+<script>
+    let myComponent = {
+    template: `<div>
+                  <p>local componentです</p>
+                  <div v-show="isShow">表示</div>
+                  <p>{{ getTitle }}</p><!--propsで受け取った値をばデータバインディング-->
+              </div>`,
+    //props属性を指定している。ここで型宣言もできるし、default値を定義することもできる。
+    props: {
+      title: {
+        type: String,
+      },
+      desabled: {
+        type: Boolean,
+        default: false
+      }
+    },
+    data() {
+      return {
+        isShow: false,
+        //受けっとた値を保持させる
+        getTitle: this.title
+      }
+    }
+  }
+
+  const app = new Vue({
+    el: "#app",
+    components: {
+      //"my-component": myComponent,
+      myComponent
+    },
+    data() {
+      return {
+        titleName:"this is title name"
+      }
+    }
+  });
+  </script>
+```
+- $emitで子から親へデータを渡す。
+  - 子componentで$emitでカスタムイベントを作成
+  - 親カスタムイベント受け取ることができる。
+  - 両者ともmethodで定義が必要。eventをメソッドで作成するイメージ
+```
+<div id="app" class="pearent">
+    <!--子componentに@カスタムイベント名="親のmetod名"-->
+    <my-component @custm-event="pearentMethod"
+                  class='child'
+    >
+  </my-component>
+  </div>
+
+
+  <script>
+    let myComponent = {
+    template: `<div>
+                  <button @click="childMethod">子側のボタン</button>
+              </div>`,
+    methods: {
+      childMethod () {
+        //$emitの第一引数はカスタムイベント名(ケバブ), 第２引数は渡す値
+        this.$emit("custm-event", "子の値")
+      }
+    }
+  }
+
+  const app = new Vue({
+    el: "#app",
+    components: {
+      myComponent
+    },
+    data() {
+      return {
+      }
+    },
+    methods: {
+      //子からイベントを受け取ったらmethodが実行される。
+      pearentMethod(event) {
+        console.log(event);
+      }
+    }
+  });
+  </script>
+```
+- Event bus
+  - 

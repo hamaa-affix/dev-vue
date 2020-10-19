@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+  <style>
+    .pearent {
+      width: 800px;
+      margin: 0 auto;
+      border: 1px red solid;
+    }
+    .child {
+      width: 30%;
+      margin: 0 auto;
+      border: 1px blue solid;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="pearent">
+    <array-test v-for="menber in menbers"
+                :key="menber.name"
+                :item="menber"
+                class="child"
+    >
+
+    </array-test>
+  </div>
+
+
+  <script>
+let arrayTest = {
+  props:{
+    item: {
+      type: Object,
+    }
+  },
+  template: `<div>
+              <p>{{ item.name }}</p>
+            </div>`
+}
+
+  const app = new Vue({
+    el: "#app",
+    components: {
+      arrayTest
+    },
+    data() {
+      return {
+        menbers:
+        [
+          {name: "久保"},
+          {name: "堂安"},
+          {name:"南野"}
+        ]
+      }
+    }
+  });
+  </script>
+</body>
+</html>
