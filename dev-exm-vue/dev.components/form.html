@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <title>Document</title>
+  <style>
+    .pearent {
+      width: 800px;
+      margin: 0 auto;
+      border: 1px red solid;
+    }
+    .child {
+      width: 30%;
+      margin: 0 auto;
+      border: 1px blue solid;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="pearent">
+    <custm-input></custm-input>
+  </div>
+
+
+  <script>
+    let custmInput = {
+    template: `<div>
+
+              </div>`,
+    props: {
+
+    },
+    data() {
+      return {
+
+      }
+    }
+  }
+
+  const app = new Vue({
+    el: "#app",
+    components: {
+      custmInput
+    },
+    data() {
+      return {
+        pearentValue: "",
+      }
+    }
+  });
+  </script>
+</body>
+</html>
