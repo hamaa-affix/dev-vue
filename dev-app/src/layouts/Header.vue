@@ -1,7 +1,8 @@
 <template>
   <v-app-bar app>
-    <a :href="toGoogle">Googleへ</a>
-    {{ totalPrace }}
+    <router-link to="/">Home</router-link>
+    <router-link to="Abouts">About</router-link>
+    <router-link to="/book">Booklist</router-link>
   </v-app-bar>
 </template>
 
@@ -9,15 +10,7 @@
 export default {
   data() {
     return {
-      toGoogle: "https:google.com",
-      price: 100,
-      number: 3
     }
-  },
-  computed: {
-    totalPrace() {
-      return this.price + this.number
-    },
   }
 }
 </script>
