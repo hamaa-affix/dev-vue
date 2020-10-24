@@ -160,3 +160,79 @@ export default {
 ## $router, $route
 - $router = VueRouterインスタン（全体）
 - $route = ルートオブジェクト（現在のページ）
+
+
+## watch
+- 同じcomponent内でcomponent(同一)の使い回しやrouter-linkを付与し動的に変化をつけた場合、再描画はない(ライフサイクルは1回)のみ
+- 上記だと差分の検知ができないのでこれに対処するのがwatchである
+```
+watch {
+  ex_funa (newvalue, oldvalue) {
+
+  }
+}
+
+//実際のコード
+//createdは仮想domが作られたタイミングでないと表示されない。
+//watchであればroute.paramsが変化したタイミングで処理を行ってくれる。
+export default {
+  created() {
+    console.log('Itme');
+  },
+  watch: {
+    $route(to, from){
+      console.log(to);
+      console.log(from);
+    }
+  },
+}
+```
+
+## ネストされたルート
+ - routingはネストできる。
+ - ネストするにはchildrenの要素を用いて表現する。
+```
+router/index.js
+
+//childrenは配列で表現し、オブジェクトで管理する。
+{
+path: '/user',
+component: User,
+children: [
+  {
+    path: 'profile',
+    component: UserProfile,
+  },
+  {
+    path: 'post',
+    component: UserPost,
+  }
+]
+}
+
+//実施のview
+<template>
+  <div>user情報<br>
+    <!--router-viewはフルパスで記述-->
+    <router-link to="/user/profile">プロフィール</router-link> |
+    <router-link to="/user/post">Post</router-link> |
+    <router-view/><!--User.vueが読み込まれている-->
+  </div>
+</template>
+```
+
+## 名前付きrouterView
+- 同一がroute内でrouterViewを複数使用することが可能。
+- その際には名前の付与が必要になってくる。
+```
+router/index.js
+
+//'/'内ででcomponentsで登録(普段はcomponent
+//nameを付与しcomponentを登録していく。ちなみに設定はしなくともdefaultのnameが付与されている。
+ path: '/',
+    name: 'Home',
+    components: {
+      default: Home,
+      sub: HomeSub
+```
+## ナビゲーションガード
