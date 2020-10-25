@@ -1,59 +1,57 @@
 <template>
   <div>
-    <v-container>
-      <v-row>
-        <v-col cols="6">
-          <v-text-field
-            label="本のタイトル検索"
-            v-model="keyWord"
-          >
-          </v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="3">
-          <v-btn color="primary" @click="search(keyWord)">本を検索する</v-btn>
-        </v-col>
-        <v-col cols="3">
-          <v-btn color="secondary" to="/">一覧に戻る</v-btn>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col
-          cols="12" md="6"
-          v-for="(searchResult, index) in searchResults"
-          :key="index"
+    <v-row>
+      <v-col cols="6">
+        <v-text-field
+          label="本のタイトル検索"
+          v-model="keyWord"
         >
-          <v-card class="mx-auto">
-            <v-row>
-              <v-col cols="4">
-                <v-img :src="searchResult.image"></v-img>
-              </v-col>
-              <v-col cols="8">
-                <v-card-title>{{ searchResult.title }}</v-card-title>
-                {{ searchResult.description }}
-                <v-spacer></v-spacer>
-                <v-card-actions>
-                  <v-btn
-                    class="mx-2"
-                    fab
-                    dark
-                    color="indigo"
-                    @click="addBookList(index)"
-                  >
-                    <v-icon dark>
-                      mdi-plus
-                    </v-icon>
-                  </v-btn>
-                </v-card-actions>
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+        </v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="3">
+        <v-btn color="primary" @click="search(keyWord)">本を検索する</v-btn>
+      </v-col>
+      <v-col cols="3">
+        <v-btn color="secondary" to="/">一覧に戻る</v-btn>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col
+        cols="12" md="6"
+        v-for="(searchResult, index) in searchResults"
+        :key="index"
+      >
+        <v-card class="mx-auto">
+          <v-row>
+            <v-col cols="4">
+              <v-img :src="searchResult.image"></v-img>
+            </v-col>
+            <v-col cols="8">
+              <v-card-title>{{ searchResult.title }}</v-card-title>
+              {{ searchResult.description }}
+              <v-spacer></v-spacer>
+              <v-card-actions>
+                <v-btn
+                  class="mx-2"
+                  fab
+                  dark
+                  color="indigo"
+                  @click="addBookList(index)"
+                >
+                  <v-icon dark>
+                    mdi-plus
+                  </v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+</div>
 </template>
 
 <script>
@@ -67,7 +65,6 @@ export default {
   },
   methods: {
     //fetchでjson取得
-    // 必要な情報を配列にpush
     async search(keyWord) {
       //クエリストリングを作成
       this.serchResults = []
@@ -97,6 +94,9 @@ export default {
           description: description ?  description.slice(0, 40) : ''
         })
       }
+    },
+    addBookList(index) {
+      this.$emit('add-book-list', this.searchResults[index]);
     }
   }
 }

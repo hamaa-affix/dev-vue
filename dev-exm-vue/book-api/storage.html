@@ -35,34 +35,34 @@
         }
       },
       mounted() {
-    if (localStorage.getItem('STRAGE_KEY')) {
-      try {
-        this.books = JSON.parse(localStorage.getItem('STRAGE_KEY'));
-      } catch(e) {
-        localStorage.removeItem('STRAGE_KEY');
-      }
-    }
-  },
-  methods: {
-    addBook() {
-      // 実際に何かしたことを入力する
-      if (!this.newBook) {
-        return;
-      }
+        if (localStorage.getItem('STRAGE_KEY')) {
+          try {
+            this.books = JSON.parse(localStorage.getItem('STRAGE_KEY'));
+          } catch(e) {
+            localStorage.removeItem('STRAGE_KEY');
+          }
+        }
+      },
+      methods: {
+        addBook() {
+          // 実際に何かしたことを入力する
+          if (!this.newBook) {
+            return;
+          }
 
-      this.books.push(this.newBook);
-      this.newBook = '';
-      this.saveBook();
-    },
-    removeBook(x) {
-      this.books.splice(x, 1);
-      this.saveBook();
-    },
-    saveBook() {
-      const parsed = JSON.stringify(this.books);
-      localStorage.setItem('STRAGE_KEY', parsed);
-    }
-  }
+          this.books.push(this.newBook);
+          this.newBook = '';
+          this.saveBook();
+        },
+        removeBook(x) {
+          this.books.splice(x, 1);
+          this.saveBook();
+        },
+        saveBook() {
+          const parsed = JSON.stringify(this.books);
+          localStorage.setItem('STRAGE_KEY', parsed);
+        }
+      }
     })
   </script>
 </body>
