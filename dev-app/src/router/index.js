@@ -1,14 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '../views/Home.vue';
-import About from '../views/About.vue';
-import BookList from '../views/BookList.vue';
-import BookDetail from '@/views/BookDetail';
-import Item from '@/views/Item.vue';
+import BookIndex from '@/pages/BookIndex';
+import BookEdit from '@/pages/BookEdit';
+import BookSearch from '@/pages/BookSearch';
 import NotFound from '@/views/NotFound.vue';
-import User from '@/views/User.vue';
-import UserProfile from '@/components/user/UserProfile';
-import UserPost from '@/components/user/UserPost';
+import User from '@/views/users/User.vue';
+import UserProfile from '@/views/users/user_components/UserProfile';
+import UserPost from '@/views/users/user_components/UserPost';
 
 Vue.use(Router);
 
@@ -17,37 +15,32 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
-      component: Home
+      name: 'BookIndex',
+      component: BookIndex
     },
     {
-      path: '/about',
-      name: 'About',
-      component: About
+      path: '/search',
+      name: 'BookSearch',
+      component: BookSearch,
     },
     {
-      path: '/book',
-      name: 'BookList',
-      component: BookList,
+      path: '/edit',
+      name: 'BookEdit',
+      component: BookEdit
     },
-    {
-      name: 'BookDetail',
-      path: '/book/:id',
-      params: {},
-      component: BookDetail,
-      //router-componentにpropsを渡す(pramsとして)
-      //ルートの情報を取得するには関数モードで記述しないといけない。
-      props: route => ({
-        id: Number(route.params.id),
-        title: route.params.title,
-        content: route.params.content
-      })
-    },
-    {
-      name: 'Item',
-      path: '/Item/:id',
-      component: Item,
-    },
+    // {
+    //   name: 'BookDetail',
+    //   path: '/book/:id',
+    //   params: {},
+    //   component: BookDetail,
+    //   //router-componentにpropsを渡す(pramsとして)
+    //   //ルートの情報を取得するには関数モードで記述しないといけない。
+    //   props: route => ({
+    //     id: Number(route.params.id),
+    //     title: route.params.title,
+    //     content: route.params.content
+    //   })
+    // },
     {
       //ネストされたroute
       //nameを書くとエラーになる
