@@ -1,10 +1,11 @@
 <template>
-  <v-app-bar app>
-    <router-link to="/">Home</router-link> |
-    <router-link to="Abouts">About</router-link> |
-    <router-link to="/book">Booklist</router-link> |
-    <router-link to="/user">User</router-link> |
-  </v-app-bar>
+  <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <v-spacer></v-spacer>
+    </v-app-bar>
 </template>
 
 <script>

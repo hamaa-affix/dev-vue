@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <div id="app">
+      <h2>Book</h2>
+      <div v-for="(book, n) in books">
+        <p>
+          <span class="cat">{{ book }}</span>
+          <button @click="removeBook()">Remove</button>
+        </p>
+      </div>
+
+      <p>
+        <input v-model="newBook">
+        <button @click="addBook">Add Book</button>
+      </p>
+    </div>
+  </div>
+  <script>
+    const STRAGE_KEY = 'books'
+    const app = new Vue({
+      el: "#app",
+      data() {
+        return {
+          books: [],
+          newBook: null
+        }
+      },
+      mounted() {
+        if (localStorage.getItem('STRAGE_KEY')) {
+          try {
+            this.books = JSON.parse(localStorage.getItem('STRAGE_KEY'));
+          } catch(e) {
+            localStorage.removeItem('STRAGE_KEY');
+          }
+        }
+      },
+      methods: {
+        addBook() {
+          // 実際に何かしたことを入力する
+          if (!this.newBook) {
+            return;
+          }
+
+          this.books.push(this.newBook);
+          this.newBook = '';
+          this.saveBook();
+        },
+        removeBook(x) {
+          this.books.splice(x, 1);
+          this.saveBook();
+        },
+        saveBook() {
+          const parsed = JSON.stringify(this.books);
+          localStorage.setItem('STRAGE_KEY', parsed);
+        }
+      }
+    })
+  </script>
+</body>
+</html>

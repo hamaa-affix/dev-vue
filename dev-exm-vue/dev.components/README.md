@@ -63,13 +63,12 @@ const app = new Vue({
 });
 </script>
 ```
-- props
+## props
   - 親のデータを子に渡す
   - 子conponentに受け取る属性名を指定する。
   - 親はで登録しているデータをtemplateを渡す。
   - propsが親とのlinkという考えを持ってやれば良い。props属性を通じて、親のデータをv-bindで渡す。
 ```
-
   <div id="app" class="pearent">
     <!--props属性にv-bindしデータバインディング-->
     <my-component :title="titleName" class="child"></my-component>
@@ -115,11 +114,42 @@ const app = new Vue({
     }
   });
   </script>
+
+//これだけまず覚える
+//propsはデータの共有。
+//親
+<template>
+  :props名="共有したいデータ,プロパティ名"
+<template>
+
+<script>
+Vue({
+  data() {
+    return {
+      共有したいデータ,プロパティ名
+    }
+  }
+})
+</script>
+
+//子
+<template>
+  {{props名}}
+<template>
+
+<script>
+Vue({
+  props: {
+    共有したいデータ,プロパティ名: 型宣言  ->これでデータの共有が可能 {{}} でバインドできる
+  }
+})
+</script>
 ```
-- $emitで子から親へデータを渡す。
+## $emitで子から親へデータを渡す。
   - 子componentで$emitでカスタムイベントを作成
   - 親カスタムイベント受け取ることができる。
   - 両者ともmethodで定義が必要。eventをメソッドで作成するイメージ
+
 ```
 <div id="app" class="pearent">
     <!--子componentに@カスタムイベント名="親のmetod名"-->
@@ -160,6 +190,27 @@ const app = new Vue({
     }
   });
   </script>
-```
+
+  //これだけまず覚える
+  子
+  example(index) {
+      this.$emit('カスタムイベント名', this.searchResults[index]);
+    }
+
+  //親での受け取り
+  <temlate>
+    @子で定義したカスタムイベント名="取得するためのmethod名"　->これで子からデータを取得する権利をえた。
+  </temlate>
+
+  <script>
+  new Vue({
+    methods: {
+      取得するためのmethod名(e) { ->eventとしてデータを受け取る。
+        this.data = e.data ->e.paramsアクセスできる
+      }
+    }
+  })
+  </script>
+  ```
 - Event bus
-  - 
+  -

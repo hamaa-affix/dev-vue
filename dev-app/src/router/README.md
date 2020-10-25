@@ -159,7 +159,7 @@ export default {
 
 ## $router, $route
 - $router = VueRouterインスタン（全体）
-- $route = ルートオブジェクト（現在のページ）
+- $route = ルートオブジェクト（現在のページ）、routeObjectのparamsにアクセスする際はthis.$route.paramsでアクセス。
 
 
 ## watch

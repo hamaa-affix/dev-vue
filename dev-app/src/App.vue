@@ -2,9 +2,12 @@
   <v-app>
     <Header/>
     <v-main>
-      <transition name="fade" mode="out-in">
-        <router-view/>
-      </transition>
+      <v-container>
+        <router-view
+          :books="books"
+          @add-book-list="addBook"
+        />
+      </v-container>
     </v-main>
     <Footer/>
   </v-app>
@@ -12,8 +15,9 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld';
-import Header from "@/layouts/Header.vue";
-import Footer from "@/layouts/Footer.vue";
+import Header from "@/layouts/Header";
+import Footer from "@/layouts/Footer";
+const STRAGE_KEY = 'books'
 
 export default {
   name: 'App',
@@ -24,37 +28,49 @@ export default {
     Footer
   },
 
-  data: () => ({
-        formInput: {
-          name: 'your name',
-          praiceholder: '名前を表示してくだい',
-        }
-  }),
+  data () {
+    return {
+      books: [],
+      newBook: null
+    }
+  },
+  mounted() {
+    if (localStorage.getItem('STRAGE_KEY')) {
+      try {
+        this.books = JSON.parse(localStorage.getItem(STRAGE_KEY));
+      } catch(e) {
+        localStorage.removeItem(STRAGE_KEY);
+      }
+    }
+  },
+  methods: {
+    addBook(e) {
+      // 実際に何かしたことを入力する
+      this.books.push({
+        id: this.books.length,
+        title: e.title,
+        image: e.image,
+        description: e.description,
+        readDate: '',
+        memo: ''
+      });
+      //this.newBook = '';
+      this.saveBook();
+      //最後に追加したidの取得コード
+      //console.log(this.books.slice(-1)[0].id);
+      this.goToEditPage(this.books.slice(-1)[0].id)
+    },
+    removeBook(x) {
+      this.books.splice(x, 1);
+      this.saveBook();
+    },
+    saveBook() {
+      const parsed = JSON.stringify(this.books);
+      localStorage.setItem(STRAGE_KEY, parsed);
+    },
+    goToEditPage(id){
+      this.$router.push(`/edit/${id}`);
+    }
+  }
 };
 </script>
-
-<style lang="scss">
-  fade{
-  &-enter{
-    transform: translate(-100px, 0);
-    opacity: 0;
-    &-to{
-      opacity: 1;
-    }
-    &-active{
-      transition: all 1s 0s ease;
-    }
-  }
-  &-leave{
-    transform: translate(0, 0);
-    opacity: 1;
-    &-to{
-      transform: translate(100px, 0);
-      opacity: 0;
-    }
-    &-active{
-      transition: all .5s 0s ease;
-    }
-  }
-}
-</style>
