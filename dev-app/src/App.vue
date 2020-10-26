@@ -1,11 +1,14 @@
 <template>
   <v-app>
-    <Header/>
+    <Header
+      @delete-local-storege="deleteLocalStorege"
+    />
     <v-main>
       <v-container>
         <router-view
           :books="books"
           @add-book-list="addBook"
+          @update-book-info="updateBookInfo"
         />
       </v-container>
     </v-main>
@@ -64,13 +67,36 @@ export default {
       this.books.splice(x, 1);
       this.saveBook();
     },
+    updateBookInfo (e){
+      const updateInfo = {
+        id: e.id,
+        readDate: e.readDate,
+        memo: e.memo,
+        title: this.books[e.id].title,
+        image: this.books[e.id].image,
+        description: this.books[e.id].description
+      }
+
+      this.books.splice(e.id, 1, updateInfo);
+      this.saveBook()
+      this.$router.push('/');
+    },
     saveBook() {
       const parsed = JSON.stringify(this.books);
       localStorage.setItem(STRAGE_KEY, parsed);
     },
+    deleteLocalStorege() {
+      const isDeleted = 'LocalStoregeのデータを削除しても良いですか？';
+      if(window.confirm(isDeleted)) {
+        localStorage.setItem(STRAGE_KEY, '');
+        localStorage.removeItem(STRAGE_KEY);
+        this.books = [];
+        window.location.reload();
+      }
+    },
     goToEditPage(id){
       this.$router.push(`/edit/${id}`);
-    }
+    },
   }
 };
 </script>

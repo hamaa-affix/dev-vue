@@ -39,7 +39,7 @@
               <v-textarea class="mx-2" v-model="book.memo">{{ book.memo }}</v-textarea>
               <v-card-actions>
                 <v-btn color="secondary" to="/">一覧に戻る</v-btn>
-                <v-btn color="info">保存する</v-btn>
+                <v-btn color="info" @click="updateBookInfo()">保存する</v-btn>
               </v-card-actions>
             </v-col>
           </v-row>
@@ -66,14 +66,29 @@ export default {
   //例えば親のcomponentがデータを渡す前に子componentが先に描画させれると、うまくデータの表示ができない。
   //なのでbeforeRouteEnter + $nextTickで親componentが更新が終わってから処理をする流れにする。
   beforeRouteEnter (to, from, next) {
-  next(vm => {
-    // `vm` を通じてコンポーネントインスタンスにアクセス
-    vm.$nextTick( () => {
-      console.log(vm.books[vm.$route.params]);
-      vm.book = vm.books[vm.$route.params.id];
+    next(vm => {
+      // `vm` を通じてコンポーネントインスタンスにアクセス
+      vm.$nextTick( () => {
+        //console.log(vm.books[vm.$route.params]);
+        vm.book = vm.books[vm.$route.params.id];
+        if(vm.book.readDate) {
+          vm.date = vm.book.readDate
+        }else {
+          vm.date = new Date().toISOString().substr(0, 10)
+        }
+      })
     })
-  })
-}
+  },
+  methods: {
+    updateBookInfo() {
+      this.$emit('update-book-info', {
+        //bookのデータ構造上idはないから、routeオブジェクトのparamsを取得
+        id: this.$route.params.id,
+        readData: this.date,
+        memo: this.book.memo
+      });
+    }
+  },
 }
 </script>
 
