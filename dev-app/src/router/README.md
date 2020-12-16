@@ -158,8 +158,8 @@ export default {
 ```
 
 ## $router, $route
-- $router = VueRouterインスタン（全体）, $router.push('url')を用いページ遷移を行う
-- $route = ルートオブジェクト（現在のページ）、routeObjectのparamsにアクセスする際はthis.$route.paramsでアクセス。
+- $router = VueRouterインスタン（webアプリケーション全体）, ページ遷移で使用する。$router.push('url')を用いページ遷移を行う
+- $route = ルートオブジェクト（現在のページの情報）、routeObjectのparamsにアクセスする際はthis.$route.paramsでアクセス。
 
 
 ## watch
